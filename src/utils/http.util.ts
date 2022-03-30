@@ -27,10 +27,10 @@ function handleError(error: AxiosError) {
 }
 
 interface IAxiosInstance {
-  get(url: string, config?: AxiosRequestConfig): Promise<Record<string, any>>
-  delete(url: string, config?: AxiosRequestConfig): Promise<Record<string, any>>
-  post(url: string, data?: any, config?: AxiosRequestConfig): Promise<Record<string, any>>
-  put(url: string, data?: any, config?: AxiosRequestConfig): Promise<Record<string, any>>
+  get(url: string, config?: AxiosRequestConfig): Promise<any>
+  delete(url: string, config?: AxiosRequestConfig): Promise<any>
+  post(url: string, data?: any, config?: AxiosRequestConfig): Promise<any>
+  patch(url: string, data?: any, config?: AxiosRequestConfig): Promise<any>
 }
 
 const httpInstance: IAxiosInstance & AxiosInstance = axios.create({

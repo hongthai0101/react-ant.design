@@ -23,7 +23,7 @@ export const HOME_SIDER_MENU_LIST = [
     name: 'Reminder'
   },
   {
-    path: '/home/todoList',
+    path: '/home/todo-list',
     icon: <FileDoneOutlined />,
     name: 'Todo',
   },

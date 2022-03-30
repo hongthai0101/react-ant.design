@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import { DatePicker, Button, Select, Tag, Modal, Form, Popconfirm } from 'antd'
 import { serviceGetReminder, serviceDeleteReminder } from '@/services'
 import { FORMAT_DATE, formatDateTime } from '@/utils'
+import { IReminder, IReminderGetList } from '@/models'
+import { RootState } from '@/store'
 
 const { RangePicker } = DatePicker
 const Option = Select.Option
@@ -17,7 +19,7 @@ const STATUS_TYPE: Record<string, any> = {
 
 interface State {
   showCreateModal: boolean
-  currentRow: Record<string, any> | null
+  currentRow: IReminder | null
 }
 
 type Props = ReturnType<typeof mapStateToProps>
@@ -36,7 +38,7 @@ const ReminderPage: React.FC<Props> = function({ userInfo }) {
       title: 'Condition',
       dataIndex: 'type',
       width: 100,
-      render: (row: any) => (
+      render: (row: number) => (
         <Tag color={STATUS_TYPE[row].color}>
           {STATUS_TYPE[row].text}
         </Tag>
@@ -57,7 +59,7 @@ const ReminderPage: React.FC<Props> = function({ userInfo }) {
       width: 180,
       align: 'right',
       fixed: 'right',
-      render: (record: any) => (
+      render: (record: IReminder) => (
         <>
           <Button onClick={() => handleEdit(record)}>Edit</Button>
           <Popconfirm
@@ -83,7 +85,7 @@ const ReminderPage: React.FC<Props> = function({ userInfo }) {
     tableRef?.current?.getTableData()
   }
 
-  function getReminder(params: any = {}) {
+  function getReminder(params: IReminderGetList) {
     const values = form.getFieldsValue()
 
     if (values.date && values.date.length === 2) {
@@ -96,7 +98,7 @@ const ReminderPage: React.FC<Props> = function({ userInfo }) {
     }
 
     return serviceGetReminder(params).then(res => {
-      res.rows = res.items.map((el: any, idx: number) => {
+      res.items = res.items.map((el: IReminder, idx: number) => {
         el.order = idx + 1
         el.createdAt = formatDateTime(el.createdAt)
         return el
@@ -105,14 +107,14 @@ const ReminderPage: React.FC<Props> = function({ userInfo }) {
     })
   }
 
-  function handleEdit(record: any) {
+  function handleEdit(record: IReminder) {
     setState({
       showCreateModal: true,
       currentRow: record
     })
   }
 
-  function handleDelete(record: any) {
+  function handleDelete(record: IReminder) {
     serviceDeleteReminder(record.id)
       .then(() => {
         tableRef.current.getTableData()
@@ -195,7 +197,7 @@ const ReminderPage: React.FC<Props> = function({ userInfo }) {
   )
 }
 
-const mapStateToProps = (store: any) => ({
+const mapStateToProps = (store: RootState) => ({
   userInfo: store.user.userInfo
 })
 

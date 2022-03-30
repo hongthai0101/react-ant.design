@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useImperativeHandle } from 'react'
+import React, { FC, useEffect } from 'react'
 import './style.scss'
 import { Table } from 'antd'
 import { TableProps } from 'rc-table/lib/Table'
@@ -25,7 +25,7 @@ interface State {
   columns: any[]
 }
 
-const DEFAULT_PAGE_SIZE = 50
+const DEFAULT_PAGE_SIZE = 3
 
 const initialState: State = {
   tableHeight: 0,
@@ -36,7 +36,7 @@ const initialState: State = {
     pageSize: DEFAULT_PAGE_SIZE,
     showSizeChanger: true,
     total: 0,
-    pageSizeOptions: ['30', '50', '70', '100', '200']
+    pageSizeOptions: ['3', '30', '50', '70', '100', '200']
   },
   selectedRowKeys: [],
   columns: []
@@ -60,10 +60,6 @@ const TableFC: FC<Props> = ({
   const showRowSelection = onDelete
   const [state, setState] = useKeepState(initialState)
 
-
-  console.log(1111);
-  
-
   const { run: getData } = useDebounceFn(() => {
     setState({ isLoading: true })
     const { pageNo, pageSize } = tableRef.current
@@ -78,7 +74,7 @@ const TableFC: FC<Props> = ({
             total: res.total,
             pageSize
           },
-          tableDataSource: res.rows
+          tableDataSource: res.items
         })
       })
       .finally(() => {

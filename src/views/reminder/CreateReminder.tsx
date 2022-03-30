@@ -8,24 +8,16 @@ import {
   DatePicker
 } from 'antd'
 import { serviceCreateReminder, serviceUpdateReminder } from '@/services'
-import { isBefore, formatDateTime } from '@/utils'
+import { isBefore, formatDateTime, formLayoutItem } from '@/utils'
+import { IReminder } from '@/models'
 
 const { TextArea } = Input
-
-const layout = {
-  labelCol: {
-    span: 6,
-  },
-  wrapperCol: {
-    span: 18,
-  },
-};
 
 type Props = {
   visible: boolean
   onCancel: () => void
   onSuccess: (res?: any) => void
-  rowData?: Record<string, any>
+  rowData?: IReminder
 }
 
 interface State {
@@ -48,7 +40,7 @@ const CreateReminder: React.FC<Props> = function ({
   async function handleSubmitForm() {
     try {
       const values = await form.validateFields()
-      const params = {
+      const params: Partial<IReminder> = {
         date: formatDateTime(values.date),
         content: values.content.trim()
       }
@@ -60,12 +52,12 @@ const CreateReminder: React.FC<Props> = function ({
           ? serviceCreateReminder(params)
           : serviceUpdateReminder(rowData.id, params)
       )
-      .then(res => {
-        onSuccess(res)
-      })
-      .finally(() => {
-        setState({ confirmLoading: false })
-      })
+        .then(res => {
+          onSuccess(res)
+        })
+        .finally(() => {
+          setState({ confirmLoading: false })
+        })
     } catch (err) {
       console.log(err)
     }
@@ -89,7 +81,7 @@ const CreateReminder: React.FC<Props> = function ({
       confirmLoading={state.confirmLoading}
       destroyOnClose
     >
-      <Form form={form} preserve={false} {...layout} >
+      <Form form={form} preserve={false} {...formLayoutItem()} >
         <Form.Item
           name="date"
           label="Date"
