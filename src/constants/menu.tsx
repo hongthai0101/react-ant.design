@@ -18,27 +18,27 @@ export const HOME_SIDER_MENU_LIST = [
     name: 'Home'
   },
   {
-    path: '/home/reminder',
+    path: '/home/reminders',
     icon: <ClockCircleOutlined />,
     name: 'Reminder'
   },
   {
-    path: '/home/todo-list',
+    path: '/home/todo-lists',
     icon: <FileDoneOutlined />,
     name: 'Todo',
   },
   {
-    path: '/home/todayTask',
+    path: '/home/tasks',
     icon: <ScheduleOutlined />,
     name: 'Task'
   },
   {
-    path: '/home/log',
+    path: '/home/logs',
     icon: <SnippetsOutlined />,
     name: 'Log'
   },
   {
-    path: '/home/company',
+    path: '/home/companies',
     icon: <InsertRowLeftOutlined />,
     name: 'Company'
   },
@@ -48,32 +48,32 @@ export const HOME_SIDER_MENU_LIST = [
     name: 'Financial Management',
     children: [
       {
-        path: '/home/capitalFlow',
+        path: '/home/capital-flows',
         name: 'Liquidity',
       },
       {
-        path: '/home/capitalFlow/type',
+        path: '/home/capital-flow-types',
         name: 'Create Category',
       }
     ]
   },
   {
-    path: '/home/memorandum',
+    path: '/home/memorandums',
     icon: <FormOutlined />,
     name: 'My Memo',
     children: [
       {
-        path: '/home/memorandum',
+        path: '/home/memorandums',
         name: 'List',
       },
       {
-        path: '/home/memorandum/create',
+        path: '/home/memorandums/create',
         name: 'Create',
       }
     ]
   },
   {
-    path: '/home/setting/base',
+    path: '/home/settings/base',
     icon: <UserOutlined />,
     name: 'Profile'
   }
@@ -81,19 +81,19 @@ export const HOME_SIDER_MENU_LIST = [
 
 export const SETTING_SIDER_MENU_LIST = [
   {
-    path: '/home/setting/base',
+    path: '/home/settings/base',
     name: 'Profile'
   },
   {
-    path: '/home/setting/innerMessage',
+    path: '/home/settings/inner-messages',
     name: 'Message'
   },
   {
-    path: '/home/setting/notification',
+    path: '/home/settings/notifications',
     name: 'Notification'
   },
   {
-    path: '/home/setting/account',
+    path: '/home/settings/account',
     name: 'Account'
   },
 ]

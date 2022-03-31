@@ -12,3 +12,8 @@ export interface ListRequest {
 
     [key: string]: any;
 }
+
+export type IImage = {
+    url: string,
+    name: string
+}

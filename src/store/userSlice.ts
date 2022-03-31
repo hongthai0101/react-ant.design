@@ -4,22 +4,12 @@ import { isPlainObject } from 'lodash'
 import { serviceLoginByToken } from '@/services'
 import type { AppDispatch } from '.'
 import { formatDate } from '@/utils'
-
-export interface UserInfoProps {
-  provider: string
-  email: string
-  password: string
-  firstName: string
-  lastName: string
-  avatarUrl: string
-  role: string
-  createdAt: string
-}
+import { IUser } from '@/models'
 
 export interface UserState {
   isLogin: boolean
   isLockScreen: boolean
-  userInfo: UserInfoProps
+  userInfo: IUser
   token: string | null
 }
 
@@ -39,12 +29,12 @@ const initialState: UserState = {
     provider: '',
     createdAt: '',
     username: '',
-    password: '',
     loginName: '',
-    avatarUrl: '',
     email: '',
-    role: '',
-    location: ''
+    photo: '',
+    socialId: '',
+    role: undefined,
+    status: undefined
   },
   token
 }
@@ -53,7 +43,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    SET_USER_INFO: (state, action: PayloadAction<{userInfo: UserInfoProps, token: string}>) => {
+    SET_USER_INFO: (state, action: PayloadAction<{userInfo: IUser, token: string}>) => {
       const {userInfo, token} = action.payload
       userInfo.createdAt &&= formatDate(userInfo.createdAt)
       if (userInfo) {

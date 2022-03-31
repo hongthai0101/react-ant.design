@@ -6,6 +6,7 @@ import MainEntry from '@/views/main'
 import HomeIndex from '@/views/index'
 import Reminder from '@/views/reminder'
 import TodoList from '@/views/todo'
+import Task from '@/views/task'
 
 export function MainRoutes() {
   const _Login = <PrivateRoute element={Login} meta={{
@@ -32,19 +33,26 @@ export function MainRoutes() {
           }} />,
         },
         {
-          path: 'reminder',
+          path: 'reminders',
           element: <PrivateRoute element={Reminder} meta={{
             requiresAuth: true,
             title: 'Reminder'
           }} />
         },
         {
-          path: 'todo-list',
+          path: 'todo-lists',
           element: <PrivateRoute element={TodoList} meta={{
             title: 'Todo List',
             requiresAuth: true,
           }} />
-        }
+        },
+        {
+          path: 'tasks',
+          element: <PrivateRoute element={Task} meta={{
+            requiresAuth: true,
+            title: 'Task Today'
+          }} />
+        },
       ]
     }
   ])

@@ -1,6 +1,7 @@
+import { ILoginRequest, ILoginResponse } from '@/models';
 import http from '@/utils/http.util'
 
-export function serviceLogin(data: object) {
+export function serviceLogin(data: ILoginRequest): Promise<ILoginResponse> {
   return http.post('/login', data)
 }
 

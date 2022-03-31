@@ -16,6 +16,7 @@ import {
   LockOutlined,
   UserOutlined
 } from '@ant-design/icons'
+import { ILoginRequest } from '@/models'
 
 const LOGIN_NAME = localStorage.getItem(LOCAL_STORAGE.LOGIN_NAME) || ''
 
@@ -34,7 +35,7 @@ export default function () {
 
   const handleSubmit = async () => {
     try {
-      const values = await form.validateFields()
+      const values: ILoginRequest = await form.validateFields()
       setLoading(true)
       serviceLogin({
         email: values.email.trim(),
@@ -63,7 +64,7 @@ export default function () {
     }
 
     if (token) {
-      dispatch(loginByToken(token as string))
+      dispatch(loginByToken(token))
         .then((res: any) => {
           if (!isEmpty(res.userInfo)) {
             navigate(redirectUrl, { replace: true })
