@@ -49,7 +49,6 @@ export const systemSlice = createSlice({
 
 export const { SET_INFO } = systemSlice.actions
 
-
 export const getSystemInfo: any = () => (dispatch: AppDispatch, getState: GetState) => {
   const rootState = getState()
   if (rootState.system.info.nodeVersion) {
@@ -60,7 +59,5 @@ export const getSystemInfo: any = () => (dispatch: AppDispatch, getState: GetSta
     dispatch(SET_INFO(res as InfoProps))
   })
 }
-
-
 
 export default systemSlice.reducer

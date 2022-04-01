@@ -7,6 +7,7 @@ import HomeIndex from '@/views/index'
 import Reminder from '@/views/reminder'
 import TodoList from '@/views/todo'
 import Task from '@/views/task'
+import Company from '@/views/company'
 
 export function MainRoutes() {
   const _Login = <PrivateRoute element={Login} meta={{
@@ -51,6 +52,13 @@ export function MainRoutes() {
           element: <PrivateRoute element={Task} meta={{
             requiresAuth: true,
             title: 'Task Today'
+          }} />
+        },
+        {
+          path: 'companies',
+          element: <PrivateRoute element={Company} meta={{
+            requiresAuth: true,
+            title: 'Company'
           }} />
         },
       ]

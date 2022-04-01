@@ -19,6 +19,8 @@ export interface IUser {
 export interface ILoginResponse {
     token: string
     userInfo: IUser
+    expiresIn: number
+    expireAt: number
     message: string
     statusCode: number
 }

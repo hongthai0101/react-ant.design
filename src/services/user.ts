@@ -28,7 +28,7 @@ export function serviceGetUserConfig() {
 }
 
 export function serviceUpdateUserConfig(data: object) {
-  return http.put('/userConfig', data, {
+  return http.patch('/userConfig', data, {
     headers: { successAlert: 'true' }
   })
 }

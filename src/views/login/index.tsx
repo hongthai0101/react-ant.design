@@ -41,8 +41,8 @@ export default function () {
         email: values.email.trim(),
         password: values.password.trim()
       })
-        .then(({ token, userInfo }) => {
-          dispatch(SET_USER_INFO({ token, userInfo }))
+        .then((res) => {
+          dispatch(SET_USER_INFO(res))
           navigate(redirectUrl, { replace: true })
         })
         .catch(() => {})

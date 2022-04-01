@@ -16,6 +16,7 @@ const PrivateRoute: React.FC<Props> = function ({
   meta = o,
   ...rest
 }) {
+
   const { pathname, search } = useLocation()
   const { isLogin } = useAppSelector(state => state.user)
   const isLoginPage = pathname === '/' || pathname === '/login'
@@ -37,13 +38,12 @@ const PrivateRoute: React.FC<Props> = function ({
   if (meta.requiresAuth) {
     if (isLogin) {
       return <Component {...rest} />
-    } else {
+    } else {      
       if (!isLoginPage) {
         return <Navigate to={`/?redirectUrl=${pathname}${search}`} replace />
       }
     }
   }
-
   return <Component {...rest} />
 }
 

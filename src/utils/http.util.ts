@@ -5,12 +5,14 @@ import { message, notification } from 'antd'
 import { IStore } from '@/store'
 import { logout } from '.'
 import { get } from 'lodash'
+import { ListResponse } from '@/models'
 
 interface RespData {
-  success: boolean
-  errorCode: number
-  msg?: string
-  data?: any
+  message: string
+  statusCode: number
+  total?: number
+  data?: object | ListResponse<object>
+  
   [key: string]: any
 }
 
@@ -20,10 +22,11 @@ function handleError(error: AxiosError) {
   const response = error.response
   const errors: Array<{message: string, property: string}> = get(response, 'data.errors', []);
   const description = errors.length > 0 ? errors[0].message : response?.statusText ?? 'The server is on a business trip';
+  if ( response?.status === 401 && !exiting) logout();
   notification.error({
     message: `Error Code: ${response?.status ?? -1}`,
     description
-  })
+  });
 }
 
 interface IAxiosInstance {
@@ -42,11 +45,10 @@ httpInstance.defaults.headers.common.isLoading = 'true'
 httpInstance.defaults.headers.common.errorAlert = 'true'
 Object.setPrototypeOf(httpInstance, axios)
 
-export function setupInterceptor(store: IStore) {
+export function setupInterceptor(store: IStore) {  
   httpInstance.interceptors.request.use(function (config) {
     const method = config.method
-    const token = store.getState().user.token
-
+    const token = store.getState().user.token?.token
     if (token) {
       if (config.headers) {
         config.headers.Authorization = 'Bearer ' + token
@@ -88,11 +90,6 @@ export function setupInterceptor(store: IStore) {
         })
       }
       throw res
-    }
-
-    if (data.errorCode === 401 && !exiting) {
-      exiting = true
-      logout()
     }
 
     return res.data?.data || res
