@@ -45,7 +45,7 @@ export const HOME_SIDER_MENU_LIST = [
   {
     path: '',
     icon: <BarChartOutlined />,
-    name: 'Financial Management',
+    name: 'Financial',
     children: [
       {
         path: '/home/capital-flows',

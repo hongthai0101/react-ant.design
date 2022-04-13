@@ -4,10 +4,9 @@ import Footer from '@/components/footer'
 import qs from 'query-string'
 import config from '@/config'
 import classNames from 'classnames'
-import { isEmpty } from 'lodash'
-import { Button, Input, message, Form } from 'antd'
+import { Button, Input, Form, Checkbox } from 'antd'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { loginByToken, SET_USER_INFO } from '@/store/userSlice'
+import { SET_USER_INFO } from '@/store/userSlice'
 import { serviceLogin } from '@/services'
 import { LOCAL_STORAGE } from '@/constants'
 import { useAppDispatch } from '@/hooks'
@@ -35,17 +34,18 @@ export default function () {
 
   const handleSubmit = async () => {
     try {
-      const values: ILoginRequest = await form.validateFields()
+      const values: ILoginRequest = await form.validateFields();
       setLoading(true)
       serviceLogin({
         email: values.email.trim(),
-        password: values.password.trim()
+        password: values.password.trim(),
+        rememberMe: !!values.rememberMe
       })
         .then((res) => {
           dispatch(SET_USER_INFO(res))
           navigate(redirectUrl, { replace: true })
         })
-        .catch(() => {})
+        .catch(() => { })
         .finally(() => {
           setLoading(false)
         })
@@ -55,31 +55,14 @@ export default function () {
   }
 
   useEffect(() => {
-    const query = qs.parse(location.search)
-    const { token, state } = query    
-
-    if (Number(state) === 0) {
-      message.error('Authorization failed, please log in again')
-      return
-    }
-
-    if (token) {
-      dispatch(loginByToken(token))
-        .then((res: any) => {
-          if (!isEmpty(res.userInfo)) {
-            navigate(redirectUrl, { replace: true })
-          }
-        })
-    }
-  }, [history, location.search])
-
-  useEffect(() => {
     if (config.isDevelopment) {
       form.setFieldsValue({
         email: 'john.doe@example.com',
-        password: 'secret'
+        password: 'secret',
+        rememberMe: false
       })
     }
+    return () => form.setFieldsValue({})
   }, [])
 
   return (
@@ -130,6 +113,13 @@ export default function () {
                 autoComplete="off"
                 onPressEnter={handleSubmit}
               />
+            </Form.Item>
+
+            <Form.Item
+              name="rememberMe"
+              valuePropName="checked"
+            >
+              <Checkbox>Remember Me</Checkbox>
             </Form.Item>
           </Form>
 

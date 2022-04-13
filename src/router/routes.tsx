@@ -8,6 +8,10 @@ import Reminder from '@/views/reminder'
 import TodoList from '@/views/todo'
 import Task from '@/views/task'
 import Company from '@/views/company'
+import Log from '@/views/log'
+import CreateLog from '@/views/log/CreateLog'
+import CapitalFlow from '@/views/capital-flow'
+import CapitalFlowType from '@/views/capital-flow/TypeList'
 
 export function MainRoutes() {
   const _Login = <PrivateRoute element={Login} meta={{
@@ -59,6 +63,34 @@ export function MainRoutes() {
           element: <PrivateRoute element={Company} meta={{
             requiresAuth: true,
             title: 'Company'
+          }} />
+        },
+        {
+          path: 'logs',
+          element: <PrivateRoute element={Log} meta={{
+            requiresAuth: true,
+            title: 'Log'
+          }} />
+        },
+        {
+          path: 'logs/create/:type',
+          element: <PrivateRoute element={CreateLog} meta={{
+            requiresAuth: true,
+            title: 'Create Log'
+          }} />
+        },
+        {
+          path: 'capital-flows',
+          element: <PrivateRoute element={CapitalFlow} meta={{
+            title: 'Capital Flow',
+            requiresAuth: true,
+          }} />
+        },
+        {
+          path: 'capital-flow-types',
+          element: <PrivateRoute element={CapitalFlowType} meta={{
+            title: 'Capital Flow Type',
+            requiresAuth: true,
           }} />
         },
       ]

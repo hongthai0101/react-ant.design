@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { LOCAL_STORAGE } from '@/constants'
 import { isPlainObject } from 'lodash'
-import { serviceLoginByToken } from '@/services'
 import type { AppDispatch } from '.'
 import { formatDate, logout } from '@/utils'
 import { ILoginResponse, IUser } from '@/models'
@@ -69,10 +68,5 @@ export const userSlice = createSlice({
 })
 
 export const { SET_USER_INFO } = userSlice.actions
-
-export const loginByToken: any = (token: string) => async (dispatch: AppDispatch) => {
-  const res = await serviceLoginByToken(token);
-  return dispatch(SET_USER_INFO(res));
-}
 
 export default userSlice.reducer

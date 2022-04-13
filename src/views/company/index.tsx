@@ -25,7 +25,7 @@
    const tableColumns = [
      {
        title: 'Company Name',
-       dataIndex: 'companyName',
+       dataIndex: 'name',
        width: 170
      },
      {

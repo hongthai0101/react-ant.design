@@ -1,6 +1,3 @@
-import { string } from "prop-types"
-import { ListRequest } from "./common"
-
 export interface ICompany {
     createdAt: string
     updatedAt: string

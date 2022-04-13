@@ -5,12 +5,6 @@ export function serviceLogin(data: ILoginRequest): Promise<ILoginResponse> {
   return http.post('/login', data)
 }
 
-export function serviceLoginByToken(token: string) {
-  return http.get('/accessToken', {
-    params: { token }
-  })
-}
-
 export function serviceUpdateUser(data: object) {
   return http.post('/user/update', data, {
     headers: { successAlert: 'true' }
