@@ -9,6 +9,8 @@ export interface ICapitalFlow {
     type: ICapitalFlowType
     remark: string
     price: number
+    
+    [key: string]: any
 }
 
 export interface ICapitalFlowGetList extends ListRequest {
@@ -16,3 +18,26 @@ export interface ICapitalFlowGetList extends ListRequest {
     startDate: string
     endDate: string
 }
+
+export type ICapitalFlowAmountRequest = {
+    startDate: string
+    endDate: string
+}
+
+export type ICapitalFlowAmountItem = {
+    date: string
+    name: string
+    price: number
+    type: number
+}
+export interface ICapitalFlowAmount {
+    data: ICapitalFlowAmountItem[];
+    message: string
+    statusCode: number
+}
+
+export type ICapitalFlowCalculateFundResponse = {
+    income: number | string,
+    consumption: number | string,
+    available: number | string
+  }

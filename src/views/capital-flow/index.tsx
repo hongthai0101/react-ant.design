@@ -8,10 +8,12 @@ import { DatePicker, Button, Select, Statistic, Input, Form, Popconfirm } from '
 import {
   serviceGetCapitalFlow,
   serviceDeleteCapitalFlow,
-  serviceGetCapitalFlowType
+  serviceGetCapitalFlowType,
+  serviceGetCalculateFunds
 } from '@/services'
 import { OPTION_TYPES, TypeNames, TYPES } from './enum'
 import { filterOption, FORMAT_DATE, FORMAT_DATE_MINUTE, isToDay } from '@/utils'
+import { ICapitalFlow, ICapitalFlowGetList } from '@/models'
 
 const { Search } = Input
 const { RangePicker } = DatePicker
@@ -28,7 +30,7 @@ enum FilterType {
 
 interface State {
   showCreateCapitalFlowModal: boolean
-  currentRow: null | { [key: string]: any }
+  currentRow: ICapitalFlow | null
   nameList: any[]
   price: {
     consumption: number
@@ -133,14 +135,14 @@ const CapitalFlowPage: React.FC = function() {
     }
   }
 
-  async function getCapitalFlow(params: Record<string, any>) {
+  async function getCapitalFlow(params: ICapitalFlowGetList) {
     try {
       const values = await form.validateFields()
       params = {
         ...params,
         keyword: values.keyword,
-        typeNameId: values.name,
-        type: values.type,
+        typeName: values.name,
+        type: values.type || null,
         startDate: values.date[0].format(FORMAT_DATE),
         endDate: values.date[1].format(FORMAT_DATE)
       }
@@ -149,17 +151,7 @@ const CapitalFlowPage: React.FC = function() {
         params.sort = `${state.sortedInfo.field}-${state.sortedInfo.order.replace('end', '')}`
       }
 
-      return serviceGetCapitalFlow(params).then(res => {
-        res.rows = res.rows.map((el: any, idx: number) => {
-          const suffix = isToDay(el.createdAt) ? ' Today' : ''
-          el.order = idx + 1
-          el.__createdAt__ = moment(el.createdAt).format(FORMAT_DATE_MINUTE) + suffix
-          el.__price__ = TYPES[el.type - 1].symbol + el.price
-          el.__color__ = TYPES[el.type - 1].color
-
-          return el
-        })
-
+      serviceGetCalculateFunds(params).then(res => {
         setState({
           price: {
             income: res.income,
@@ -167,8 +159,23 @@ const CapitalFlowPage: React.FC = function() {
             available: res.available
           }
         })
+      });
+
+      return serviceGetCapitalFlow(params).then(res => {
+        res.items = res.items.map((el: ICapitalFlow, idx: number) => {
+          const suffix = isToDay(el.createdAt) ? ' Today' : ''
+          el.order = idx + 1
+          el.__createdAt__ = moment(el.createdAt).format(FORMAT_DATE_MINUTE) + suffix
+          el.__price__ = TYPES[ +el.type.type - 1].symbol + el.price
+          el.__color__ = TYPES[ +el.type.type - 1].color
+
+          return el
+        })
         return res
       })
+
+
+
     } catch (error) {
       console.error(error)
     }
@@ -177,7 +184,7 @@ const CapitalFlowPage: React.FC = function() {
   function getCapitalFlowType() {
     serviceGetCapitalFlowType()
       .then(res => {
-        const data = res
+        const data = res.items
           .map((item: any) => {
             item.optionName = `${TypeNames[item.type]} - ${item.name}`
             return item

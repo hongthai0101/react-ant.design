@@ -10,6 +10,7 @@ import {
 } from '@/services'
 import { TypeNames, TypeColors } from './enum'
 import { FORMAT_DATE_MINUTE } from '@/utils'
+import { ICapitalFlowType } from '@/models'
 
 const initialState = {
   showCreateTypeModal: false,
@@ -28,7 +29,7 @@ const Type = () => {
     },
     {
       title: 'Category',
-      render: (rowData: any) => (
+      render: (rowData: ICapitalFlowType) => (
         <Tag color={rowData.color}>{rowData.typeName}</Tag>
       )
     },
@@ -38,7 +39,7 @@ const Type = () => {
     },
     {
       title: 'Operate',
-      render: (rowData: any) => (
+      render: (rowData: ICapitalFlowType) => (
         <Button onClick={handleEdit.bind(null, rowData)}>Edit</Button>
       )
     },
@@ -47,7 +48,7 @@ const Type = () => {
   function getCapitalFlowType() {
     serviceGetCapitalFlowType()
       .then(res => {
-        const handleData = res.map((item: any) => {
+        const handleData = res.items.map((item: ICapitalFlowType) => {
           item.typeName = TypeNames[item.type]
           item.color = TypeColors[item.type]
           item.createdAt = moment(item.createdAt).format(FORMAT_DATE_MINUTE)
@@ -83,7 +84,7 @@ const Type = () => {
     })
   }
 
-  function handleEdit(rowData: any) {
+  function handleEdit(rowData: ICapitalFlowType) {
     setState({
       showCreateTypeModal: true,
       rowData
@@ -94,7 +95,7 @@ const Type = () => {
     getCapitalFlowType()
   }, [])
 
-  const rowSelection = {
+  const rowSelection = {    
     selectedRowKeys: state.selectedRowKeys,
     onChange: (selectedRowKeys: any) => {
       setState({ selectedRowKeys })

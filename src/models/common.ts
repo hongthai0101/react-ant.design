@@ -1,8 +1,6 @@
 export interface ListResponse<T> {
     items: T[];
     total: number;
-    message: string
-    statusCode: number
 }
 
 export interface ListRequest {
@@ -16,4 +14,11 @@ export interface ListRequest {
 export type IImage = {
     url: string,
     name: string
+}
+
+export type IPanelResponse = {
+    consumption: string | number
+    todayTaskCount: number
+    unfinishedTodoListCount: number
+    reminderCount: number
 }

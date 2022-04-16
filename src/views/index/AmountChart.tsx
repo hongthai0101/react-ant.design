@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './style.scss'
 import { Empty, DatePicker } from 'antd'
-//import { serviceGetCapitalFlowAmount, serviceGetCapitalFlowAmountGroup } from '@/services'
+import { serviceGetCapitalFlowAmount, serviceGetCapitalFlowAmountGroup } from '@/services'
 import {
   LineChart, Line, XAxis,
   YAxis, CartesianGrid, Tooltip,
@@ -9,6 +9,7 @@ import {
   Bar
 } from 'recharts'
 import { formatDate, FORMAT_DATE, DATE_WEEK } from '@/utils'
+import { ICapitalFlowAmountRequest } from '@/models'
 
 type DataProp = {
   date: string
@@ -29,44 +30,42 @@ const AmountChart = () => {
   const [group, setGroup] = useState<GroupProp[]>([])
   const [totalAmount, setTotalAmount] = useState(0)
 
-  function getData(params?: object) {
-    // serviceGetCapitalFlowAmount({
-    //   ...params
-    // })
-    // .then(res => {
-    //   let price = 0
-    //   const data: DataProp[] = []
-    //   res.forEach((item: DataProp, idx: number) => {
-    //     const date = item.date.slice(5)
-    //     const amount = Number(item.price)
-    //     price += amount
+  function getData(params?: ICapitalFlowAmountRequest) {
+    serviceGetCapitalFlowAmount(params)
+    .then(res => {
+      let price = 0
+      const data: DataProp[] = []
+      res.forEach((item: DataProp, idx: number) => {
+        const date = item.date.slice(5)
+        const amount = Number(item.price)
+        price += amount
 
-    //     if (idx % 2 === 0) {
-    //       data.push({
-    //         date,
-    //         '收入': amount
-    //       })
-    //     } else {
-    //       data[data.length - 1]['Expenditure'] = amount
-    //     }
-    //   })
+        if (idx % 2 === 0) {
+          data.push({
+            date,
+            'Income': amount
+          })
+        } else {
+          data[data.length - 1]['Expenditure'] = amount
+        }
+      })
 
-    //   setData(data)
-    //   setTotalAmount(price)
-    // })
+      setData(data)
+      setTotalAmount(price)      
+    })
 
-    // serviceGetCapitalFlowAmountGroup({
-    //   startDate: formatDate(DATE_WEEK[0]),
-    //   endDate: formatDate(DATE_WEEK[1]),
-    //   ...params
-    // }).then(res => {
-    //   setGroup(
-    //     res.map((item: GroupProp) => {
-    //       item.name = item.type === 1 ? `+ ${item.name}` : `- ${item.name}`
-    //       return item
-    //     })
-    //   )
-    // })
+    serviceGetCapitalFlowAmountGroup({
+      startDate: formatDate(DATE_WEEK[0]),
+      endDate: formatDate(DATE_WEEK[1]),
+      ...params
+    }).then(res => {
+      setGroup(
+        res.map((item: GroupProp) => {
+          item.name = item.type === 1 ? `+ ${item.name}` : `- ${item.name}`
+          return item
+        })
+      )
+    })
   }
 
   function handleChangeDate(_: unknown, formatString: [string, string]) {

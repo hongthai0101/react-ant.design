@@ -9,12 +9,13 @@ import {
 import { serviceCreateCapitalFlowType, serviceUpdateCapitalFlowType } from '@/services'
 import { TYPES } from './enum'
 import { formLayoutItem, filterOption } from '@/utils'
+import { ICapitalFlowType } from '@/models'
 
 type Props = {
   visible: boolean
   onSuccess: (res?: any) => void
   onCancel: () => void
-  rowData: null | Record<string, any>
+  rowData: null | ICapitalFlowType
 }
 
 const { Option } = Select
@@ -47,7 +48,7 @@ const CreateTypeModal: React.FC<Props> = function ({
           : serviceCreateCapitalFlowType(params)
       )
       .then(res => {
-        onSuccess(res.data)
+        onSuccess(res)
       })
       .finally(() => {
         setState({ confirmLoading: false })

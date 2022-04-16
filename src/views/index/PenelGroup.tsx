@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import './style.scss'
 import { Row, Col, Statistic } from 'antd'
 import { Link } from 'react-router-dom'
-//import { serviceGetPanelData } from '@/services'
+import { serviceGetPanelData } from '@/services'
 import {
   PropertySafetyFilled,
   ScheduleFilled,
@@ -18,25 +18,25 @@ const PanelGroup = () => {
       total: '0',
       Icon: <PropertySafetyFilled className="icon" />,
       suffix: '$',
-      path: '/home/capitalFlow'
+      path: '/home/capital-flows'
     },
     {
       title: 'Todo',
       total: '0',
       Icon: <ScheduleFilled className="icon" />,
-      path: '/home/todayTask'
+      path: '/home/today-tasks'
     },
     {
       title: 'Activity',
       total: '0',
       Icon: <FileTextFilled className="icon" />,
-      path: '/home/todoList'
+      path: '/home/todoL-lists'
     },
     {
       title: 'Reminder',
       total: '0',
       Icon: <AlertFilled className="icon" />,
-      path: '/home/reminder'
+      path: '/home/reminders'
     },
   ])
 
@@ -45,15 +45,15 @@ const PanelGroup = () => {
 
     isInit.current = true
 
-    // serviceGetPanelData()
-    // .then(res => {
-    //   const data = state.slice()
-    //   data[0].total = Number(res.consumption).toFixed(2)
-    //   data[1].total = res.todayTaskCount
-    //   data[2].total = res.unfinishedTodoListCount
-    //   data[3].total = res.reminderCount
-    //   setState(data)
-    // })
+    serviceGetPanelData()
+    .then(res => {
+      const data = state.slice()
+      data[0].total = Number(res.consumption).toFixed(2)
+      data[1].total = res.todayTaskCount.toString()
+      data[2].total = res.unfinishedTodoListCount.toString()
+      data[3].total = res.reminderCount.toString()
+      setState(data)
+    })
   }, [state])
 
   return (

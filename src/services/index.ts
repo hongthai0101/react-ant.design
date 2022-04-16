@@ -6,3 +6,6 @@ export * from './task';
 export * from './company';
 export * from './log';
 export * from './capital-flow';
+export * from './inner-message';
+export * from './common';
+export * from './memorandum';

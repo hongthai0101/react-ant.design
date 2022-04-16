@@ -102,7 +102,7 @@ const ReminderPage: React.FC<Props> = function({ userInfo }) {
         el.order = idx + 1
         el.createdAt = formatDateTime(el.createdAt)
         return el
-      })
+      })      
       return res
     })
   }

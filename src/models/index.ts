@@ -6,3 +6,5 @@ export * from './user';
 export * from './log';
 export * from './capital-flow';
 export * from './capital-flow-type';
+export * from './inner-message';
+export * from './memorandum';

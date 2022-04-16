@@ -48,7 +48,7 @@ const CreateCapitalFlowModal: React.FC<Props> = function ({
       const params = {
         date: values.date.format(FORMAT_DATETIME),
         remark: values.remark?.trim() ?? '',
-        typeId: values.typeId,
+        type: values.typeId,
         price: Number(values.amount)
       }
 
@@ -75,7 +75,7 @@ const CreateCapitalFlowModal: React.FC<Props> = function ({
       form.setFieldsValue({
         date: moment(rowData.createdAt),
         remark: rowData.remark,
-        typeId: rowData.typeId,
+        typeId: rowData.type.id,
         amount: rowData.price,
       })
     }

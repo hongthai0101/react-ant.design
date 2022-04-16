@@ -3,9 +3,9 @@ import './style.scss'
 import bytes from 'bytes'
 import CONFIG from '@/config'
 import { Row, Col, Card, Progress, Empty } from 'antd'
-import {formatDateTime} from '@/utils'
-// import { totalPercentage, formatDateTime } from '@/utils'
-// import { serviceGetInnerMessage } from '@/services'
+import { totalPercentage, formatDateTime } from '@/utils'
+import { serviceGetInnerMessage } from '@/services'
+import { IInnerMessage } from '@/models'
 
 interface Props {
   systemInfo: Record<string, any>
@@ -20,11 +20,11 @@ let timer: any
 
 const System: React.FC<Props> = ({ systemInfo }) => {
   const [curSystemTime, setCurSystemTime] = useState('')
-  const [messageList, setMessageList] = useState([])
+  const [messageList, setMessageList] = useState<IInnerMessage[]>([])
   const [loading, setLoading] = useState(true)
 
   const memPercentage = useMemo(() => {
-    //return totalPercentage(systemInfo.totalmem, systemInfo.freemem)
+    return totalPercentage(systemInfo.totalmem, systemInfo.freemem)
     return 1;
   }, [systemInfo.totalmem, systemInfo.freemem])
 
@@ -47,11 +47,11 @@ const System: React.FC<Props> = ({ systemInfo }) => {
   }, [countdown])
 
   useEffect(() => {
-    // serviceGetInnerMessage({ pageSize: 5 })
-    // .then(res => {
-    //   setLoading(false)
-    //   setMessageList(res.rows)
-    // })
+    serviceGetInnerMessage({ limit: 5 })
+    .then(res => {
+      setLoading(false)
+      setMessageList(res.items)
+    })
   }, [])
 
   return (
@@ -91,7 +91,7 @@ const System: React.FC<Props> = ({ systemInfo }) => {
           loading={loading}
         >
           {messageList.length > 0 ? (
-            messageList.map((msg: any) => (
+            messageList.map(msg => (
               <p className="item-text" key={msg.id}>
                 <em>{msg.content}</em>
               </p>

@@ -12,6 +12,9 @@ import Log from '@/views/log'
 import CreateLog from '@/views/log/CreateLog'
 import CapitalFlow from '@/views/capital-flow'
 import CapitalFlowType from '@/views/capital-flow/TypeList'
+import Memorandum from '@/views/memorandum'
+import MemorandumCreate from '@/views/memorandum/CreatePage'
+import MemorandumDetail from '@/views/memorandum/DetailPage'
 
 export function MainRoutes() {
   const _Login = <PrivateRoute element={Login} meta={{
@@ -90,6 +93,34 @@ export function MainRoutes() {
           path: 'capital-flow-types',
           element: <PrivateRoute element={CapitalFlowType} meta={{
             title: 'Capital Flow Type',
+            requiresAuth: true,
+          }} />
+        },
+
+        {
+          path: 'memorandums',
+          element: <PrivateRoute element={Memorandum} meta={{
+            requiresAuth: true,
+            title: 'Memo List'
+          }} />
+        },
+        {
+          path: 'memorandums/create',
+          element: <PrivateRoute element={MemorandumCreate} meta={{
+            requiresAuth: true,
+            title: 'Create Memo'
+          }} />
+        },
+        {
+          path: 'memorandums/update/:id',
+          element: <PrivateRoute element={MemorandumCreate} meta={{
+            requiresAuth: true,
+            title: 'Update Memo'
+          }} />
+        },
+        {
+          path: 'memorandum/detail/:id',
+          element: <PrivateRoute element={MemorandumDetail} meta={{
             requiresAuth: true,
           }} />
         },

@@ -8,15 +8,16 @@
  import { serviceGetAllCompany, serviceDelCompany } from '@/services'
  import { Button, Popconfirm } from 'antd'
  import { fromNow } from '@/utils'
+import { ICompany } from '@/models/company'
  
  interface State {
    showCreateCompanyModal: boolean
-   detail: { [key: string]: any }
+   detail: ICompany
  }
  
  const initialState: State = {
    showCreateCompanyModal: false,
-   detail: {}
+   detail: {} as ICompany
  }
  
  const CompanyPage = () => {
@@ -86,7 +87,7 @@
      }
    ]
  
-   function handleEditCompany(record: any) {
+   function handleEditCompany(record: ICompany) {
      setState({ detail: record })
      toggleCreateCompanyModal()
    }
