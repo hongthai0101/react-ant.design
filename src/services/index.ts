@@ -9,3 +9,4 @@ export * from './capital-flow';
 export * from './inner-message';
 export * from './common';
 export * from './memorandum';
+export * from './auth';

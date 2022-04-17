@@ -1,7 +1,11 @@
 import React, { lazy } from 'react'
 import { useRoutes } from 'react-router-dom'
 import PrivateRoute from '@/components/private-route'
-import Login from '@/views/login/index'
+import Login from '@/views/auth/login'
+import Register from '@/views/auth/register'
+import ForgotPassword from '@/views/auth/forgot-password'
+import ResetPassword from '@/views/auth/reset-password'
+import Verify from '@/views/auth/verify'
 import MainEntry from '@/views/main'
 import HomeIndex from '@/views/index'
 import Reminder from '@/views/reminder'
@@ -20,6 +24,23 @@ export function MainRoutes() {
   const _Login = <PrivateRoute element={Login} meta={{
     title: 'Admin Site'
   }} />
+
+  const _Register = <PrivateRoute element={Register} meta={{
+    title: 'Register Site'
+  }} />
+
+  const _ForgotPassword = <PrivateRoute element={ForgotPassword} meta={{
+    title: 'Forgot Password'
+  }} />
+
+  const _ResetPassword = <PrivateRoute element={ResetPassword} meta={{
+    title: 'Reset Password'
+  }} />
+
+  const _Verify = <PrivateRoute element={Verify} meta={{
+    title: 'Verify Account'
+  }} />
+
   const elements = useRoutes([
     {
       path: '/',
@@ -28,6 +49,22 @@ export function MainRoutes() {
     {
       path: '/login',
       element: _Login
+    },
+    {
+      path: '/register',
+      element: _Register
+    },
+    {
+      path: '/forgot/password',
+      element: _ForgotPassword
+    },
+    {
+      path: '/reset/password/:hash',
+      element: _ResetPassword
+    },
+    {
+      path: '/verify/:hash',
+      element: _Verify
     },
     {
       path: '/home',

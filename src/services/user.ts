@@ -1,10 +1,5 @@
-import { ILoginRequest, ILoginResponse } from '@/models';
+import { ILoginRequest, ILoginResponse, IRegisterRequest } from '@/models';
 import http from '@/utils/http.util'
-
-export function serviceLogin(data: ILoginRequest): Promise<ILoginResponse> {
-  return http.post('/login', data)
-}
-
 export function serviceUpdateUser(data: object) {
   return http.post('/user/update', data, {
     headers: { successAlert: 'true' }

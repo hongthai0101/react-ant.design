@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import './style.scss'
-import Footer from '@/components/footer'
 import qs from 'query-string'
 import config from '@/config'
 import classNames from 'classnames'
@@ -16,6 +14,8 @@ import {
   UserOutlined
 } from '@ant-design/icons'
 import { ILoginRequest } from '@/models'
+import { Link } from 'react-router-dom'
+import AuthLayout from './layout';
 
 const LOGIN_NAME = localStorage.getItem(LOCAL_STORAGE.LOGIN_NAME) || ''
 
@@ -66,7 +66,7 @@ export default function () {
   }, [])
 
   return (
-    <section className="login-page">
+    <AuthLayout>
       <div className="wrap">
         <div>
           <div className="logo-wrap">
@@ -120,14 +120,14 @@ export default function () {
               valuePropName="checked"
             >
               <Checkbox>Remember Me</Checkbox>
-            </Form.Item>
+            </Form.Item>            
           </Form>
-
+          <Link style={{float: 'right'}} to="/forgot/password">Forgot password</Link>
           <div className={classNames('login-bar', {
             'events-none': loading
           })}>
           </div>
-
+          <Link to="/register">Register new account</Link>
           <Button
             type="primary"
             style={{ marginTop: '20px' }}
@@ -140,7 +140,6 @@ export default function () {
           </Button>
         </div>
       </div>
-      <Footer />
-    </section>
+     </AuthLayout>
   )
 }

@@ -10,7 +10,6 @@ import { ListResponse } from '@/models'
 interface RespData {
   message: string
   statusCode: number
-  total?: number
   data?: object | ListResponse<object>
   
   [key: string]: any
@@ -20,8 +19,8 @@ let exiting = false
 
 function handleError(error: AxiosError) {
   const response = error.response
-  const errors: Array<{message: string, property: string}> = get(response, 'data.errors', []);
-  const description = errors.length > 0 ? errors[0].message : response?.statusText ?? 'The server is on a business trip';
+  //const errors: Array<{message: string, property: string}> = get(response, 'data.errors', []);
+  const description = get(response, 'data.message', get(response, 'data.errors', [])) ?? 'The server is on a business trip';
   if ( response?.status === 401 && !exiting) logout();
   notification.error({
     message: `Error Code: ${response?.status ?? -1}`,

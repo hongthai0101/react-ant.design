@@ -8,3 +8,4 @@ export * from './capital-flow';
 export * from './capital-flow-type';
 export * from './inner-message';
 export * from './memorandum';
+export * from './auth';
